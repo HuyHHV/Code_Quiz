@@ -5,24 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code quiz</title>
-    <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
-    <header>
-        <h1 class="time" ></h1>
+    <header class="jumbotron jumbotron-fluid bg-dark text-light p-2 ">
+        <h1 class="time" >time:</h1>
     </header>
     
-    <main>
-        <section class="box">
-            <div>
-                <h2 id="questionTitle"></h2>
-                <ul id ="listQ"></ul>
-            </div>
-            <div></div>
-                <button id="startBtn" type="button">Start quiz</button>
-                <h3 id="alert" ></h3>
-            </div>
+    <main >
+        <section class="container p-3 mb-2 bg-light ">
+            <section class="box row justify-content-center ">
+                <div>
+                    <h2 id="questionTitle"></h2>
+                    <ul id ="listQ"></ul>
+                </div>
+                <div id="startPosition">
+                    <button id="startBtn" class="btn btn-primary btn-lg" type="button">Start quiz</button>
+                </div>
+               
+            </section>
+            <h3 id="alert" class="box row justify-content-center " ></h3>
+            <form class=" input-group mb-3 d-none" id="addscore">
+                <h5 class="d-block"><span id="score"></span></h5>
+                    <input type="text" class="form-control" placeholder="Enter your initials:"
+                    id="name" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="input-group-text btn btn-primary" id="btnScore">Submit</button>
+                    </div>
+            </form>
         </section>
 
     </main>

@@ -4,6 +4,19 @@
 }
 
 
-.time:hover {
-    background: yellow;
+.btn {
+    display: block;
+    
+}
+#startBtn {
+    width: 100%;
+   
+    
+}
+#startPosition {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }

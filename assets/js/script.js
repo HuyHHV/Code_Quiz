@@ -1,4 +1,4 @@
-var secondsLeft = 101; 
+var secondsLeft = 60; 
 var index = 0;
 var timeEl = document.querySelector(".time");
 var startBtn = document.querySelector("#startBtn");
@@ -6,9 +6,13 @@ var questionTitle = document.querySelector("#questionTitle");
 var box= document.querySelector(".box");
 var listQ = document.querySelector("#listQ")
 var notice= document.querySelector("#alert");
+var nameInput = document.querySelector("#name")
+var addscore = document.querySelector("#addscore")
+var btnScore = document.querySelector("#btnScore")
 var score
 var nextQ
 var check
+var scoreHistory = []
 var questions = [
   {
       title: "Commonly used data type Do Not include:---",
@@ -37,11 +41,18 @@ var questions = [
   },
 ]
 
+
 // Press "start" to start the quiz
 
 startBtn.addEventListener("click", start);
 
 function start() {
+  // Get stored todos from localStorage
+  var storedScore = JSON.parse(localStorage.getItem("scoreHistory"));
+  // If todos were retrieved from localStorage, update the todos array to it
+  if (storedScore !== null) {
+    scoreHistory = storedScore;
+  }
   console.log(questions.length);
   timer();
   startBtn.style.display = "none" ;
@@ -57,7 +68,13 @@ function timer() {
 
     if(secondsLeft <= 0) {
       // Stops execution of action at set interval
+      index = questions.length + 1 
       clearInterval(timerInterval);
+      notice.textContent = "Game Over!!"
+      box.classList.add("d-none");
+      timeEl.classList.add("d-none");
+      score = 0
+      gameOver()
     }
   }, 1000);
 }
@@ -69,13 +86,13 @@ function displayQ(question) {
     var button = document.createElement("button");
     button.textContent = question.choices[i];
     button.addEventListener("click",displayNextQ)
-    button.classList.add("btn")
+    button.className=("btn btn-primary mb-4 btn-block")
     listQ.appendChild(button);
   };  
 }
 // Choose correct anwser by pressing one of them -> right/wrong + penalty + 
 
-function markingQ () {
+function markingQ (check) {
 
   if (check) {
     notice.textContent = "Correct!!"
@@ -88,8 +105,8 @@ function markingQ () {
 }
 // move to next question
 function displayNextQ(e) {
-  markingQ
   check = (e.target.innerText == nextQ.answer);
+  markingQ (check)
   index++;
   
   if (index < questions.length) {
@@ -100,6 +117,28 @@ function displayNextQ(e) {
   }
   else if (index >= questions.length) {
     score = secondsLeft
+    gameOver()
   }
 }
 
+// Ask user name
+
+function gameOver (){
+  addscore.classList.remove("d-none");
+  box.classList.add("d-none");
+  timeEl.classList.add("d-none");
+  btnScore.addEventListener("click",submit);
+}
+
+// submit user name + score and redirect to scoreboard
+function submit(e) {
+  e.preventDefault();
+  var inforQ = {
+    userName : nameInput.value.trim(),
+    lastScore : score,
+  }
+  console.log(inforQ);
+  scoreHistory.push(inforQ)
+  localStorage.setItem("scoreHistory", JSON.stringify(scoreHistory));
+  window.location = "scoreboard.html";
+}
